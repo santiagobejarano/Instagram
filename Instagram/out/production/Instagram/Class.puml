@@ -1,0 +1,95 @@
+@startuml
+
+class Usuario {
+  -nombre: String
+  -contraseña: String
+  -perfil: Perfil
+  +Usuario(nombre: String, contraseña: String)
+  +getNombre(): String
+  +getContraseña(): String
+  +getPerfil(): Perfil
+  +agregarPublicacion(): void
+  +realizarComentario(usuario: Usuario): void
+  +realizarReaccion(usuario: Usuario): void
+  +verComentarios(): void
+  +verPublicaciones(): void
+  +verReaccion(): void
+  +realizarComparticion(usuario: Usuario): void
+  +seguirUsuario(): void
+  +verPerfil(): void
+  +verSeguidores(): void
+}
+
+class Perfil {
+  -usuario: Usuario
+  -publicaciones: ArrayList<Publicacion>
+  -numSeguidores: int
+  -seguidores: ArrayList<Usuario>
+  +Perfil(usuario: Usuario)
+  +agregarPublicacion(publicacion: Publicacion): void
+  +mostrarContenidoPublicaciones(): void
+  +incrementarSeguidores(): void
+  +getSeguidores(): ArrayList<Usuario>
+  +getCantidadPublicaciones(): int
+  +getPublicaciones(): ArrayList<Publicacion>
+  +agregarSeguidor(seguidor: Usuario): void
+  +toString(): String
+  +mostrarSeguidores(seguidores: List<Usuario>): void
+}
+
+class Publicacion {
+  -autor: Usuario
+  -Rutafoto: String
+  -descripcion: String
+  -comentarios: ArrayList<Comentario>
+  -reacciones: ArrayList<Reaccion>
+  -comparticiones: ArrayList<Comparticion>
+  +Publicacion(autor: Usuario, fotos: String, descripcion: String)
+  +getAutor(): Usuario
+  +getRutaFoto(): String
+  +getDescripcion(): String
+  +agregarComentario(comentario: Comentario): void
+  +mostrarComentarios(): void
+  +agregarReaccion(reaccion: Reaccion): void
+  +agregarComparticion(comparticion: Comparticion): void
+  +mostrarReaccionadores(): void
+  +toString(): String
+}
+
+class Reaccion {
+  -tipo: Tipo
+  -autor: Usuario
+  +Reaccion(autor: Usuario, publicacion: Publicacion)
+  +toString(): String
+}
+
+enum Tipo {
+  LIKE
+}
+
+class Comentario {
+  -contenido: String
+  -autor: Usuario
+  +Comentario(autor: Usuario, contenido: String)
+  +getContenido(): String
+  +getAutor(): Usuario
+  +toString(): String
+}
+
+class Comparticion {
+  -link: String
+  -autor: Usuario
+  +Comparticion(autor: Usuario)
+  +getLink(): String
+}
+
+Usuario "1" --> "1" Perfil
+Perfil "1" --> "1..*" Publicacion
+Publicacion "1" --> "0..*" Comentario
+Publicacion "1" --> "0..*" Reaccion
+Publicacion "1" --> "0..*" Comparticion
+Usuario "1" --> "0..*" Usuario:Seguidores
+Reaccion ---> Tipo
+
+@enduml
+``.
